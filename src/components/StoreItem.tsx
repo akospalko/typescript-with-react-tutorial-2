@@ -1,5 +1,6 @@
 import { Card, Button } from "react-bootstrap"
-import {formatCurrency} from '../utilities/formatCurrency'
+import { useShoppingCart } from "../context/ShoppingCartContext"
+import { formatCurrency } from '../utilities/formatCurrency'
 
 type StoreItemProps = {
     id: number,
@@ -8,8 +9,12 @@ type StoreItemProps = {
     imgURL: string
 }
 
+
 export function StoreItem ({ id , name, price, imgURL } : StoreItemProps ) {
-    let amount = 5; 
+    //using contex
+    const { getItemAmount, increaseItemAmount, decreaseItemAmount, deleteCartItems } = useShoppingCart(); 
+
+    const amount = getItemAmount(id); 
     return (
         <Card className="h-100">
             <Card.Img variant="top" src={imgURL} height="200px" style={{objectFit: "contain"}} />
@@ -20,7 +25,10 @@ export function StoreItem ({ id , name, price, imgURL } : StoreItemProps ) {
                 </Card.Title>
                 <div className="mt-auto"> 
                     {amount === 0 ? 
-                       ( <Button variant="success" className="w-100"    
+                       (<Button 
+                            variant="success" 
+                            className="w-100"
+                            onClick={() => {increaseItemAmount(id)}}
                         > 
                             Add to Cart +
                         </Button>) : 
@@ -30,14 +38,30 @@ export function StoreItem ({ id , name, price, imgURL } : StoreItemProps ) {
                                 style={{gap: "0.5rem"}}
                                 >
                                     <div className="d-flex flex-colum-center">
-                                        <Button variant="success"> - </Button>
+                                        <Button 
+                                            variant="success"
+                                            onClick={() => {decreaseItemAmount(id)}}
+                                        >
+                                            - 
+                                        </Button>
                                         <div className="m-1">
                                             <span className="fs-3"> {amount} </span>
                                             in cart
                                         </div>
-                                        <Button variant="success"> + </Button>
+                                        <Button 
+                                            variant="success"
+                                            onClick={() => {increaseItemAmount(id)}}
+                                        > 
+                                            + 
+                                        </Button>
                                     </div>
-                                    <Button variant="danger" size="sm"> Remove </Button>
+                                    <Button 
+                                        variant="danger" 
+                                        size="sm"
+                                        onClick={() => {deleteCartItems(id)}}
+                                    > 
+                                        Remove 
+                                    </Button>
                             </div>
                         ) 
                     }   

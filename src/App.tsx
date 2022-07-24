@@ -5,21 +5,23 @@ import { Home } from './pages/Home'
 import { Store } from './pages/Store'
 import { About } from './pages/About'
 import { NavBar } from './components/NavBar'
+import { ShoppingCart } from './data/svg/ShoppingCart'
+import { ShoppingCartProvider } from './context/ShoppingCartContext'
 
 function App() {
   return (
-    <>
-    <NavBar/>
-    {/*Bootstrap container*/}
-    <Container className='mb-4'>
-    {/*Specifying Routes*/}
-    <Routes> 
-      <Route path='/' element={<Home/>}/>
-      <Route path='/store' element={<Store/>}/>
-      <Route path='/about' element={<About/>}/>
-    </Routes>
-    </Container>
-    </>
+    <ShoppingCartProvider>
+      <NavBar/>
+      {/*Bootstrap container*/}
+      <Container className='mb-4'>
+      {/*Specifying Routes*/}
+      <Routes> 
+        <Route path='/' element={<Home/>}/>
+        <Route path='/store' element={<Store/>}/>
+        <Route path='/about' element={<About/>}/>
+      </Routes>
+      </Container>
+    </ShoppingCartProvider> 
   )
 }
 
